@@ -1,0 +1,20 @@
+package in.wiley.HouseRentManagementSystem;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@SpringBootApplication
+@ComponentScan("in.wiley.houserent.controller")
+@EntityScan("in.wiley.houserent.model")
+@EnableJpaRepositories("in.wiley.houserent.repository")
+public class HouseRentManagementSystemApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(HouseRentManagementSystemApplication.class, args);
+	}
+
+}
