@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <style>
+    	@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+		
+		/* variables for success and error scenarios */
+		:root {
+		    --success-color:#2ecc71;
+		    --error-color:#e74c3c;
+		}
+		
+		/* Box Sizing to avoid change in width when padding changes */
+		* {
+		    box-sizing: border-box;
+		}
+		
+		body {
+		    background-color: #f9fafb;
+		    font-family: 'Open Sans', sans-serif;
+		    display: flex;
+		    align-items:center;
+		    justify-content:center;
+		    min-height: 100vh;
+		    margin: 0;
+		}
+		
+		.container {
+		    background-color: #fff;
+		    border-radius: 5px;
+		    box-shadow : 0 2px 10px rgba(0,0,0,0.3);
+		    width:400px;
+		}
+		
+		h2 {
+		    text-align: center;
+		    margin: 0 0 20px;
+		}
+		
+		.form {
+		    padding: 30px 40px;
+		}
+		
+		.form-control {
+		    margin-bottom: 10px;
+		    padding-bottom: 20px;
+		    position: relative;
+		}
+		
+		.form-control label {
+		    color: #777;
+		    display: block;
+		    margin-bottom: 5px;
+		}
+		
+		.form-control input {
+		    border: 2px solid #f0f0f0;
+		    border-radius: 4px;
+		    display: block;
+		    width:100%;
+		    padding: 10px;
+		    font-size: 14px; 
+		}
+		
+		.form-control input:focus {
+		    outline : 0;    /* To remove the blue border in input textbox */
+		    border-color: #777;
+		}
+		
+		
+		/* No space between .form-control and .success class */
+		.form-control.success input {           
+		    outline : 0;
+		    border-color: var(--success-color);  /* success color : green */
+		}
+		
+		
+		.form-control.error input {
+		    outline : 0;
+		    border-color: var(--error-color);   /* error color : red */
+		}
+		
+		.form-control small {
+		    color: var(--error-color);
+		    position: absolute;
+		    bottom: 0;
+		    left: 0;
+		    visibility: hidden;
+		}
+		
+		
+		.form-control.error small {
+		    visibility : visible;
+		}
+		
+		
+		.form-control.success small {
+		    visibility : hidden;
+		}
+		
+		
+		.form button {
+		    cursor : pointer;
+		    background-color: #19aa8d;
+		    border: 2px solid #19aa8d;
+		    border-radius: 4px;
+		    color: #fff;
+		    display: block;
+		    font-size: 16px;
+		    padding: 10px;
+		    margin-top: 20px;
+		    width: 100%;
+		}
+		
+		
+		a {
+		    color: #19aa8d;
+		    text-decoration: none;
+		    
+		} 	
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="form" class="form" method="GET" action="">
+            <h2>Login</h2>
+
+            <div class="form-control">
+                <label for="password">Username</label>
+                <input type="text" name="username" id="username" autocomplete="off" onfocus="this.value=''">
+                <small>Error Message</small>
+            </div>
+
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" autocomplete="off" onfocus="this.value=''">
+                <small>Error Message</small>
+            </div>
+            <div class="form-control">
+                <button type="submit" id="submit">Sign In</button>
+            </div>
+            <div class="form-control">
+                <label style="text-align:center">New User? <a href="./SignupForm.html">SignUp here</a></label>
+            </div>
+        </form>
+    </div>
+
+    <script >
+    const form = document.getElementById('form');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+
+    //Error Outline
+    function showError(input, message){
+        const formControl = input.parentElement;
+        formControl.className = 'form-control error';
+        const small = formControl.querySelector('small');
+        small.innerText = message;
+    }
+
+    // show success outline
+    function showSuccess(input, message){
+        const formControl = input.parentElement;
+        formControl.className = 'form-control success';  
+    }
+
+
+    // function to calculate password strength.
+    function checkPasswordWeakness(input){
+        if(input.value.length >= 6 && input.value.length <= 12)
+            return false;
+        else
+            return true;
+    }
+
+    //Login Function
+    var login = () => {
+        axios.get('http://localhost:8080/user', {
+            params: {
+                username : username.value,
+                password : password.value
+            }
+        }).then((res) => {
+                alert("Login Successful");
+                localStorage.setItem("user",res.data.username);
+                if(res.data.type === "Seller"){
+                    window.location.href="./SellerHome.html";
+                }
+                else{
+                    window.location.href="./BuyerHome.html";
+                } 
+        }) .catch(error => {
+            console.log(error)
+            alert("Login failed");
+            window.location.href="./LoginForm.html";
+        })
+    }
+
+    // Adding Event Listener for submit event
+    form.addEventListener('submit', function(e){
+        // preventing default submit action before validation 
+         e.preventDefault();
+
+         var count = 0;
+
+         //email field
+         if(username.value === ''){
+            showError(username, 'Username is required');
+         }else{
+             showSuccess(username);
+             count = count + 1;
+         }
+
+         //password field
+         if(password.value === ''){
+            showError(password, 'Password is required');
+         }else if(checkPasswordWeakness(password)) {
+            showError(password, 'Password must be min 6 and max 12 characters');
+         }else{ 
+            showSuccess(password);
+            count = count + 1;
+         }
+          
+         //Calling Login function
+         if(count === 2){
+             login();
+         }
+    });
+    			
+    </script>
+</body>
+
+</html>

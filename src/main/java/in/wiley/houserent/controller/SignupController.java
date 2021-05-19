@@ -1,6 +1,7 @@
 package in.wiley.houserent.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,16 +15,22 @@ import in.wiley.houserent.repository.UserRepo;
 
 @CrossOrigin(origins = "*")
 @RestController
+//@Controller
 public class SignupController {
 	
 	@Autowired
 	private UserRepo userRepo;
 	
-	//Root Mapping
-	@GetMapping("/")
-	public String Home() {
-		return "Spring Boot Started :)";
-	}
+//	//Root Mapping
+//	@GetMapping("/")
+//	public String Home() {
+//		return "redirect:/LoginForm";
+//	}
+//	
+//	@GetMapping("/")
+//    public String homePage() {
+//        return "LoginForm";
+//    }
 	
 	//Adding User
 	@PostMapping("/addUser")
