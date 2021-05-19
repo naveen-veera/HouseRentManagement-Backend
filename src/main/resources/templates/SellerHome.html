@@ -213,7 +213,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form id="form" class="form" method="POST" action="/">
+                        <form id="profileform" class="form" method="POST" action="/">
                             <div class="form-control">
                                 <input type="text" name="username" id="username" autocomplete="off"
                                     placeholder="Username">
@@ -409,7 +409,7 @@
 
     //Adding House Details to DB
     var addHouse = () => {
-        axios.post("http://localhost:8080/addHouse",{
+        axios.post("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/addHouse",{
             "regNo" : registrationnumber.value,
             "name" : housename.value,
             "description" : description.value,
@@ -431,7 +431,7 @@
 
     // Fetching House List
     var getHouseList = () => {
-        axios.get("http://localhost:8080/allHouse").then( (res) => {
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/allHouse").then( (res) => {
             arrList = res.data;
             dispHouseDetails(arrList)
         }).catch( (err) => {
@@ -441,7 +441,7 @@
 
     //Fetching House Details
     var getDetails = (regNo) => {
-        axios.get("http://localhost:8080/house",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/house",{
             params : {
                 regNo : regNo
             }
@@ -456,7 +456,7 @@
     // Edit House Details
     var editHouse = (regNo) => {
         console.log(regNo)
-        axios.get("http://localhost:8080/house",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/house",{
             params : {
                 regNo : regNo
             }
@@ -473,7 +473,7 @@
             document.getElementById('houserent').value = res.data.rent;
             document.getElementById('housetype').value = res.data.type;
             document.getElementById('furnishedstatus').value = res.data.furnished;
-            document.getElementById('address').value = res.data.address;
+            document.getElementById('useraddress').value = res.data.address;
         }).catch( err => {
             console.log(err)
         })
@@ -483,22 +483,20 @@
     // Delete House Details
 
     var deleteHouse = (regNo) => {
-        axios.delete("http://localhost:8080/removeHouse",{
+        axios.delete("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/removeHouse",{
             params:{
                 regNo : regNo
             }
         }).then( res => {
-            alert("House Deleted Successfully");
             window.location.href="./SellerHome.html";
         }).catch( err => {
-            alert("House Deleted Successfully")
             console.log(err)
         })
     }
 
     // Edit User Profile
     var editUser = () => {
-        axios.get("http://localhost:8080/username",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/username",{
             params : {
                 username : localStorage.getItem("user")
             }
@@ -516,7 +514,7 @@
 
     // Fetch Booking Details
     var getBookings = (regNo) => {
-        axios.get("http://localhost:8080/allBooking")
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/allBooking")
         .then( res => {
             dispBooking(res.data,regNo)
         }).catch( err => {
@@ -527,21 +525,20 @@
     // Approve Booking
 
     var approveBookings = (id) => {
-        axios.get("http://localhost:8080/booking",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/booking",{
         params : {
             id : id
         }
         })
-        .then( res => {
-           
-           axios.put("http://localhost:8080/approveBooking", {
+        .then( res => { 
+           axios.put("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/approveBooking", {
                 id : res.data.id,
                 bookedUser : res.data.bookedUser,
                 houseId : res.data.houseId,
                 houseOwner : res.data.houseOwner,
                 approved : "yes"
            }).then(res => {
-               alert("Approved Success");
+               window.location.href="./SellerHome.html";
            }).catch(err => {
                alert("Approved Failure");
            })
@@ -553,12 +550,12 @@
     // Reject Booking
 
     var rejectBooking = (id) => {
-        axios.delete("http://localhost:8080/removeBooking",{
+        axios.delete("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/removeBooking",{
             params: {
                 id : id
             }
         }).then(res => {
-            alert("Booking Rejected");
+            window.location.href="./SellerHome.html";
         }).catch(err => {
             alert("Booking Rejected Failure");
         })

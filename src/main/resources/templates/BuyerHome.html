@@ -173,7 +173,7 @@
     <!-- Nav Bar -->
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand">Rented ProP</a>
+            <a class="navbar-brand">Rented Property</a>
             <div>
                 <a class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
                     onclick="editUser()">Profile</a>
@@ -293,7 +293,7 @@
     }
     // Fetching House List
     var getHouseList = () => {
-        axios.get("http://localhost:8080/allHouse").then( (res) => {
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/allHouse").then( (res) => {
             arrList = res.data;
             dispHouseDetails(arrList)
         }).catch( (err) => {
@@ -303,7 +303,7 @@
 
     //Fetching House Details
     var getDetails = (regNo) => {
-        axios.get("http://localhost:8080/house",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/house",{
             params : {
                 regNo : regNo
             }
@@ -318,12 +318,12 @@
 
     var bookHouse = (regNo) => {
         user = localStorage.getItem("user");
-        axios.get("http://localhost:8080/house",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/house",{
             params : {
                 regNo : regNo
             }
         }).then( res => {
-            axios.post("http://localhost:8080/addBooking",{
+            axios.post("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/addBooking",{
                 bookedUser : user,
                 houseId : res.data.regNo,
                 houseOwner : res.data.user,
@@ -331,9 +331,8 @@
 
             }).then( res => {
                 console.log(res)
-                alert("Booking Successfull")
             }).catch(err => {
-                alert("Booking Failure")
+                console.log("Booking Failure")
             })
         }).catch( err => {
             console.log(err)
@@ -342,7 +341,7 @@
 
     // Edit User Profile
     var editUser = () => {
-        axios.get("http://localhost:8080/username",{
+        axios.get("https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/username",{
             params : {
                 username : localStorage.getItem("user")
             }

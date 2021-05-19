@@ -8,6 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
         integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
   	<style>
   		@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 
@@ -22,7 +28,7 @@
 		    box-sizing: border-box;
 		}
 		
-		body {
+		/* body {
 		    background-color: #f9fafb;
 		    font-family: 'Open Sans', sans-serif;
 		    display: flex;
@@ -30,7 +36,7 @@
 		    justify-content:center;
 		    min-height: 100vh;
 		    margin: 0;
-		}
+		} */
 		
 		.container {
 		    background-color: #fff;
@@ -148,8 +154,14 @@
 </head>
 
 <body>
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">Rented Property</a>
+            </div>
+        </nav>
     <div class="container">
-        <form id="profileform" class="form" method="POST" action="/">
+        <form id="form" class="form" method="POST" action="/">
             <h2>Signup</h2>
 
             <div class="form-control">
@@ -195,7 +207,7 @@
                 <small>Error Message</small>
             </div>
             <div class="form-control">
-                <input type="text" name="address" id="useraddress" autocomplete="off" placeholder="Address">
+                <input type="text" name="address" id="address" autocomplete="off" placeholder="Address">
                 <small>Error Message</small>
             </div>
             <div class="form-control">
@@ -205,6 +217,7 @@
                 <label style="text-align:center">Already have an Account? <a href="./LoginForm.html">Login
                         here</a></label>
             </div>
+            <div><small id="errorMessage"></small></div>
         </form>
     </div>
 
@@ -271,7 +284,7 @@
     }
 
     var register = () => {
-        axios.post('http://localhost:8080/addUser', {
+        axios.post('https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/addUser', {
             "username" : username.value,
             "mobile": mobilenumber.value,
             "gender": gender.value,
@@ -281,12 +294,10 @@
             "type": userrole.value,
             "address": address.value
         }).then((res) => {
-                console.log(res);
-                alert("Signup Successful");
                 window.location.href="./LoginForm.html";
         }) .catch(error => {
-            console.log(error)
-            alert("Signup failed");
+            document.getElementById("errorMessage").innerText = "Signup failed";
+
         })
     }
 
@@ -377,10 +388,8 @@
              showSuccess(address);
              count = count+1;
         }
-
-        if(count === 9){
+        if(count == 9)
             register();
-        }
           
     });
     			

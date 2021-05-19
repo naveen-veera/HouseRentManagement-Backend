@@ -8,7 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
         integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
     <style>
     	@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 		
@@ -22,7 +27,7 @@
 		* {
 		    box-sizing: border-box;
 		}
-		
+/* 		
 		body {
 		    background-color: #f9fafb;
 		    font-family: 'Open Sans', sans-serif;
@@ -31,7 +36,7 @@
 		    justify-content:center;
 		    min-height: 100vh;
 		    margin: 0;
-		}
+		} */
 		
 		.container {
 		    background-color: #fff;
@@ -130,6 +135,12 @@
 </head>
 
 <body>
+     <!-- Nav Bar -->
+     <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Rented Property</a>
+        </div>
+    </nav>
     <div class="container">
         <form id="form" class="form" method="GET" action="">
             <h2>Login</h2>
@@ -184,13 +195,12 @@
 
     //Login Function
     var login = () => {
-        axios.get('http://localhost:8080/user', {
+        axios.get('https://8080-dffcceaeaadffdcdbebafbdffcbddfadacbeedebb.examlyiopb.examly.io/user', {
             params: {
                 username : username.value,
                 password : password.value
             }
         }).then((res) => {
-                alert("Login Successful");
                 localStorage.setItem("user",res.data.username);
                 if(res.data.type === "Seller"){
                     window.location.href="./SellerHome.html";
@@ -200,7 +210,6 @@
                 } 
         }) .catch(error => {
             console.log(error)
-            alert("Login failed");
             window.location.href="./LoginForm.html";
         })
     }
